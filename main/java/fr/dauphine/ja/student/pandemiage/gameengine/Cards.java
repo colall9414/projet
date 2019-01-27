@@ -2,6 +2,7 @@ package fr.dauphine.ja.student.pandemiage.gameengine;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,6 +12,7 @@ import org.xml.sax.SAXException;
 public class Cards {
 	private List<Card> cityCardArray; // 城市卡和蔓延卡是放在一起
 	private List<Card> infectionArray; //病毒卡
+	private List<Card> epidemicArray; //蔓延卡
 	
 	
 	public Cards(CityLoader cl) {
@@ -24,6 +26,27 @@ public class Cards {
 		catch (Exception e ){
 			e.printStackTrace();
 		}
+		//打乱顺序
+		Collections.shuffle(cityCardArray);
+		Collections.shuffle(infectionArray);
+		//创建四张蔓延卡
+		for(int i=0;i<4;i++) {
+			//把城市卡分成4等分; 每一堆放一张蔓延卡, 
+			Card c = new Card();
+			cityCardArray.add((i*4),c);
+		}
+	}
+	public Card drawCityCard() {
+		//抽一张城市卡 (蔓延卡也放在这里)
+		Card c = cityCardArray.get(cityCardArray.size()-1);
+		cityCardArray.remove(cityCardArray.size()-1);
+		return c;
+	}
+	public Card drawInfectionCard() {
+		//抽一张病毒卡
+		Card c = infectionArray.get(infectionArray.size()-1);
+		infectionArray.remove(infectionArray.size()-1);
+		return c;
 	}
 	public List<Card> getCityCards(){
 		return cityCardArray;
@@ -31,7 +54,6 @@ public class Cards {
 	public List<Card> getInfectionCards(){
 		return infectionArray;
 	}
-	//把城市卡分成4等分; 每一堆放一张蔓延卡, 
 	
 	public static void main(String[] args) {
 		try {

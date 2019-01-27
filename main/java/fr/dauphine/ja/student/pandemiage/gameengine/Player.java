@@ -22,8 +22,6 @@ public class Player implements PlayerInterface{
 	//抽牌
 	public void draw(Card c) {
 		//如果疾病已经根除需要弃卡
-		
-		
 		this.cardOnHand.add(c);
 	}
 	@Override

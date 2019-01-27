@@ -29,19 +29,19 @@ public class CityState {
 
 
 
-	public void addInfectionLevel(Disease d) {
+	public void addInfectionLevel(Disease d, int level) {
 		
 		if(Disease.BLACK.equals(d)) {
-			blackInfect++;
+			blackInfect+=level;
 		}
 		if(Disease.BLUE.equals(d)) {
-			blueInfect++;
+			blueInfect+=level;
 		}
 		if(Disease.YELLOW.equals(d)) {
-			yellowInfect++;
+			yellowInfect+=level;
 		}
 		if(Disease.RED.equals(d)) {
-			redInfect++;
+			redInfect+=level;
 		}
 		
 		

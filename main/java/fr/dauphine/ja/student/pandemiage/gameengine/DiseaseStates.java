@@ -23,6 +23,14 @@ public class DiseaseStates {
 		return false;
 		
 	}
+	public boolean isEradicated(Disease d) {
+		for(DiseaseState ds: ldise) {
+			if(ds.getDisease().equals(d)) {
+				return ds.getEradicated();
+			}
+		}
+		return false;
+	}
 	
 
 }

@@ -40,10 +40,10 @@ public class CityStates {
 		}
 		return 0;
 	}
-	public void addInfectionLevel(String cityName,Disease d) {
+	public void addInfectionLevel(String cityName,Disease d, int level) {
 		for(CityState cs : statesArray){
 			if(cs.getCity().getName().equals(cityName)) {
-			     cs.addInfectionLevel(d);
+			     cs.addInfectionLevel(d,level);
 			}
 		}
 	}
@@ -52,7 +52,7 @@ public class CityStates {
 		String filename = "./pandemic.graphml";
 		CityLoader cl  = new CityLoader(filename);
 		CityStates css = new CityStates(cl);
-		css.addInfectionLevel("Chicago", Disease.BLACK);
+		css.addInfectionLevel("Chicago", Disease.BLACK,1);
 		System.out.println(css.getInfectionLevel("Chicago", Disease.BLACK));
 		System.out.println(css.getInfectionLevel("Chicago", Disease.BLUE));
 		

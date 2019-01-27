@@ -24,6 +24,7 @@ public class GameEngine implements GameInterface{
 	//new
 	private Player player;
 	private CityLoader cl;
+	private Cards cards;//还未抽的卡
 	private int countInfection;//抽到蔓延卡的次数
 	private CityStates css; //城市状态
 	private DiseaseStates dss; //所有病毒全局状态
@@ -97,6 +98,7 @@ public class GameEngine implements GameInterface{
 		nbOutbreaks = 0;
 		this.css = new CityStates(cl);
 		this.dss = new DiseaseStates();
+		this.cards = new Cards(cl);
 		//初始化玩家
 		player = new Player();
 		//给玩家发牌
@@ -105,6 +107,17 @@ public class GameEngine implements GameInterface{
 		 * 		player.draw(card);
 		 * }
 		 **/
+		/*
+		 * 一开始，先抽三张病毒卡，
+		 * 然后在这三个城市放上该颜色三个该颜色病毒方块(共九个方块), 
+		 * 2，再抽三张病毒卡，这次放两个方块; 
+		 * 3，再抽三张病毒卡，这次放一个方块。*/
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				Card c = cards.drawInfectionCard();
+				css.addInfectionLevel(c.getCityName(), c.getDisease(), (3-j));
+			}
+		}
 	
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
@@ -178,7 +191,7 @@ public class GameEngine implements GameInterface{
 	@Override
 	public boolean isEradicated(Disease d) {
 		// TODO
-		return dss.isCured(d);
+		return dss.isEradicated(d);
 		//throw new UnsupportedOperationException(); 
 	}
 
