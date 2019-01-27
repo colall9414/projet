@@ -1,0 +1,28 @@
+package fr.dauphine.ja.student.pandemiage.gameengine;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.dauphine.ja.pandemiage.common.Disease;
+
+public class DiseaseStates {
+	
+	List<DiseaseState> ldise;
+
+	public DiseaseStates() {
+
+		this.ldise = new ArrayList<>();
+	}
+	public boolean isCuried(Disease d) {
+		
+		for(DiseaseState ds: ldise) {
+			if(ds.getDisease().equals(d)) {
+				return ds.getIsCuried();
+			}
+		}
+		return false;
+		
+	}
+	
+
+}
