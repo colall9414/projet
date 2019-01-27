@@ -7,18 +7,20 @@ import fr.dauphine.ja.pandemiage.common.Disease;
 public class DiseaseState {
 	
 	Disease d;
-	boolean isCuried;
+	boolean isCured;
+	boolean isEradicated;
 	
 	public DiseaseState(Disease d) {
 		
 		this.d = d;
-		this.isCuried = false;
+		this.isCured = false;
+		this.isEradicated = false;
 	}
 	
-	public void curied(Disease d) {
+	public void cured(Disease d) {
 		
 		
-		isCuried = true;
+		isCured = true;
 		/*
 		int count=0; //The number of city cards with corresponding colors
 		int nbcard=5;
@@ -43,11 +45,17 @@ public class DiseaseState {
 		*/
 	}
 
-	public boolean getIsCuried() {
-		return isCuried;
+	public void eradicated(Disease d) {
+		this.isEradicated=true;
+	}
+	public boolean getIsCured() {
+		return this.isCured;
+	}
+	public boolean getEradicated() {
+		return this.isEradicated;
 	}
     public Disease getDisease() {
-    	return d;
+    	return this.d;
     }
 	
 	

@@ -1,5 +1,6 @@
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.dauphine.ja.pandemiage.common.Disease;
@@ -8,17 +9,23 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface{
-	private int action;
+	private int action;//还剩几次操作机会
 	private String currentCity;//所在城市
-	private List<PlayerCardInterface> cardOnHand; //手上有的卡 
+	private List<Card> cardOnHand; //手上有的卡
 	
 	
-	public Player(int action, String currentCity, List<PlayerCardInterface> cardOnHand) {
-		action = 0;
-		this.currentCity = currentCity;
-		this.cardOnHand = cardOnHand; 
+	public Player() {
+		action = 3;
+		this.currentCity = "Atlanta";//出生地在亚特兰大
+		this.cardOnHand =  new ArrayList<>();
 	}
-	
+	//抽牌
+	public void draw(Card c) {
+		//如果疾病已经根除需要弃卡
+		
+		
+		this.cardOnHand.add(c);
+	}
 	@Override
 	//在外部判断是否能执行该函数
 	public void moveTo(String cityName) throws UnauthorizedActionException {
@@ -75,11 +82,18 @@ public class Player implements PlayerInterface{
 	@Override
 	public List<PlayerCardInterface> playerHand() {
 		// TODO Auto-generated method stub
-		return this.cardOnHand;
+		List<PlayerCardInterface> cardOnHand = new ArrayList<PlayerCardInterface>();
+		for(Card c : this.cardOnHand){
+			cardOnHand.add(c);
+		}
+		return cardOnHand;
 	}
 	
 	public int getAction() {
 		return this.action;
+	}
+	public int getNbPlayerCardsLeft() {
+		return cardOnHand.size();
 	}
 	
 	public static void main(String[] args) {

@@ -22,9 +22,15 @@ public class GameEngine implements GameInterface{
 	private GameStatus gameStatus;
 	
 	//new
+	private Player player;
 	private CityLoader cl;
 	private int countInfection;//抽到蔓延卡的次数
+	private CityStates css; //城市状态
+	private DiseaseStates dss; //所有病毒全局状态
+	private int nbOutbreaks; //病毒爆发次数
+	private int turnDuration;//没回合最长持续时间(如果ai在规定时间内未作出判断则跳过？我猜是这样)
 
+	
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {		
 		gameStatus = GameStatus.DEFEATED;
@@ -86,8 +92,19 @@ public class GameEngine implements GameInterface{
 			e.printStackTrace();
 		}
 		//初始化游戏
-		countInfection=0;
-		
+		turnDuration = 3;//3秒判断时间
+		countInfection = 0;
+		nbOutbreaks = 0;
+		this.css = new CityStates(cl);
+		this.dss = new DiseaseStates();
+		//初始化玩家
+		player = new Player();
+		//给玩家发牌
+		/*
+		 * for(int i=0; i<4; i++){
+		 * 		player.draw(card);
+		 * }
+		 **/
 	
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
@@ -114,19 +131,19 @@ public class GameEngine implements GameInterface{
 	@Override
 	public List<String> neighbours(String cityName) {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		return cl.neighbours(cityName);
 	}
 
 	@Override
 	public int infectionLevel(String cityName, Disease d) {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		return css.getInfectionLevel(cityName, d);
 	}
 
 	@Override
 	public boolean isCured(Disease d) {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		return dss.isCured(d);
 	}
 
 	@Override
@@ -142,37 +159,41 @@ public class GameEngine implements GameInterface{
 		else {
 			return 4;
 		}
-		//throw new UnsupportedOperationException(); 
 	}
 
 	@Override
 	public GameStatus gameStatus() {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		return this.gameStatus;
+		//throw new UnsupportedOperationException(); 
 	}
 
 	@Override 
 	public int turnDuration() {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		return turnDuration;
+		//throw new UnsupportedOperationException(); 
 	}
 
 	@Override
 	public boolean isEradicated(Disease d) {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		return dss.isCured(d);
+		//throw new UnsupportedOperationException(); 
 	}
 
 	@Override
 	public int getNbOutbreaks() {
 		// TODO 
-		throw new UnsupportedOperationException(); 
+		return this.nbOutbreaks;
+		//throw new UnsupportedOperationException(); 
 	}
 
 	@Override
 	public int getNbPlayerCardsLeft() {
 		// TODO 
-		throw new UnsupportedOperationException(); 
+		return player.getNbPlayerCardsLeft();
+		//throw new UnsupportedOperationException(); 
 	}
 	
 }
