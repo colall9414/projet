@@ -1,14 +1,8 @@
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import fr.dauphine.ja.pandemiage.common.AiInterface;
 import fr.dauphine.ja.pandemiage.common.AiLoader;
@@ -27,10 +21,9 @@ public class GameEngine implements GameInterface{
 	private final String cityGraphFilename; 	
 	private GameStatus gameStatus;
 	
+	//new
 	private CityLoader cl;
-	private CityStates css;
-	private int infection=0; //nb infection intialise a 0
-	private int rate[]= {2,2,2,3,3,4,4}; //table inclut infectation rate
+	private int countInfection;//抽到蔓延卡的次数
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {		
@@ -82,13 +75,24 @@ public class GameEngine implements GameInterface{
 	public void loop()  {
 		// Load Ai from Jar file
 		System.out.println("Loading AI Jar file " + aiJar);		
-		AiInterface ai = AiLoader.loadAi(aiJar);		
-
-
+		AiInterface ai = AiLoader.loadAi(aiJar);
+		//load city file
+		try {
+			System.out.println("loading cities...");	
+			this.cl = new CityLoader(cityGraphFilename);
+			//List<String> allCityNames=cl.getAllCityNames();
+		}
+		catch (Exception e ){
+			e.printStackTrace();
+		}
+		//初始化游戏
+		countInfection=0;
+		
+	
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
-
-			if(Math.random() < 0.5)		
+			//ai.playTurn(this, p);
+			if(Math.random() < 0.5)
 				setDefeated("Game not implemented.", DefeatReason.UNKN);
 			else
 				setVictorious();			
@@ -98,43 +102,25 @@ public class GameEngine implements GameInterface{
 	@Override
 	public List<String> allCityNames() {
 		// TODO
-
-			try {
-				return cl.getAllCityNames();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-	   
-	}
-	
-
-	@Override
-	public List<String> neighbours(String cityName) {
-		// TODO
 		try {
-			return cl.neighbours(cityName);
+			return cl.getAllCityNames();
 		}
 		catch (Exception e ){
 			e.printStackTrace();
 		}
-		return null;
-		
-		 
+		throw new UnsupportedOperationException(); 
+	}
+
+	@Override
+	public List<String> neighbours(String cityName) {
+		// TODO
+		throw new UnsupportedOperationException(); 
 	}
 
 	@Override
 	public int infectionLevel(String cityName, Disease d) {
 		// TODO
-		
-		return css.getInfectionLevel(cityName, d);
+		throw new UnsupportedOperationException(); 
 	}
 
 	@Override
@@ -146,7 +132,17 @@ public class GameEngine implements GameInterface{
 	@Override
 	public int infectionRate() {
 		// TODO
-		throw new UnsupportedOperationException(); 
+		//222 33 44
+		if(this.countInfection<=2) {
+			return 2;
+		}
+		else if(this.countInfection<=4){
+			return 3;
+		}
+		else {
+			return 4;
+		}
+		//throw new UnsupportedOperationException(); 
 	}
 
 	@Override
