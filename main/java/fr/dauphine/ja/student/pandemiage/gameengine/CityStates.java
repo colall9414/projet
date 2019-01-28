@@ -14,6 +14,9 @@ import fr.dauphine.ja.pandemiage.common.Disease;
 public class CityStates {
 	
 	List<CityState> statesArray;
+	private static GameEngine ge;
+	boolean breakOut = false;
+	int nbOutBreak=0;
 	
 	public CityStates(CityLoader cl) {
 		statesArray = new ArrayList<>();
@@ -43,19 +46,46 @@ public class CityStates {
 	public void addInfectionLevel(String cityName,Disease d, int level) {
 		for(CityState cs : statesArray){
 			if(cs.getCity().getName().equals(cityName)) {
-			     cs.addInfectionLevel(d,level);
+				// explode or not?
+				int nb = getInfectionLevel(cityName,d)+level;
+					if(nb<=3) {
+						cs.addInfectionLevel(d,level);
+					}else {
+						//never break out
+						if(!breakOut) {
+							
+							breakOut=true;
+							List<String> l = ge.neighbours(cityName);
+							for(String s: l) {
+								addInfectionLevel(s,d,1);
+							
+							}
+							nbOutBreak++;
+						}	
+					}
 			}
+			
 		}
 	}
+	
 	//蔓延卡病毒蔓延效果
-	public void epidemic(City city) {
+	public void epidemic(City city,Disease d, int nbOutBreaks) {
 		//自己infection+1
+		
+		int infectRate = ge.infectionRate();
+		addInfectionLevel(city.getName(),d, infectRate);
+		this.nbOutBreak=nbOutBreaks;
+		
+		
 	}
+	
 	
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException {
 		String filename = "./pandemic.graphml";
+		String aijar = "./target/pandemiage-1.0-SNAPSHOT-ai.jar";
 		CityLoader cl  = new CityLoader(filename);
 		CityStates css = new CityStates(cl);
+		ge = new GameEngine(filename,aijar);
 		css.addInfectionLevel("Chicago", Disease.BLACK,1);
 		System.out.println(css.getInfectionLevel("Chicago", Disease.BLACK));
 		System.out.println(css.getInfectionLevel("Chicago", Disease.BLUE));
