@@ -70,8 +70,10 @@ public class Cards {
 
 			
 			Cards cards = new Cards(parseur);
+			int i=0;
 			for(Card c : cards.getCityCards()){
-				System.out.println(c);
+				System.out.println(i+": "+c);
+				i++;
 			}
 			
 			System.out.println("fin");
