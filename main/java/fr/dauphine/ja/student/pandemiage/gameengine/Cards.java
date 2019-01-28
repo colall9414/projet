@@ -31,9 +31,12 @@ public class Cards {
 		Collections.shuffle(infectionArray);
 		//创建四张蔓延卡
 		for(int i=0;i<4;i++) {
-			//把城市卡分成4等分; 每一堆放一张蔓延卡, 
+			//把城市卡分成4等分; 每一堆放一张蔓延卡(前五张是城市卡)
 			Card c = new Card();
-			cityCardArray.add((i*4),c);
+			int min=i*10;//每一等分有(48-5)/4=10.5张
+			int max=(i+1)*10;
+			//添加在随机min和max之间的位置
+			cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
 		}
 	}
 	public Card drawCityCard() {
@@ -49,6 +52,7 @@ public class Cards {
 		return c;
 	}
 	public List<Card> getCityCards(){
+		//获得所有城市卡(蔓延卡也在这里)
 		return cityCardArray;
 	}
 	public List<Card> getInfectionCards(){
@@ -66,7 +70,7 @@ public class Cards {
 
 			
 			Cards cards = new Cards(parseur);
-			for(Card c : cards.getInfectionCards()){
+			for(Card c : cards.getCityCards()){
 				System.out.println(c);
 			}
 			

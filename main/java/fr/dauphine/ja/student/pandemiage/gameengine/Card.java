@@ -27,6 +27,9 @@ public class Card implements PlayerCardInterface{
 	}
 	@Override
 	public String toString() {
+		if(this.type.equals("extend")) {
+			return "Card [type=" + type + "]";
+		}
 		return "Card [type=" + type + ", cityId=" + cityId + ", cityName=" + cityName + ", disease=" + disease + "]";
 	}
 	@Override
