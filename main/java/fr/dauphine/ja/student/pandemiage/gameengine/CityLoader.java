@@ -36,7 +36,7 @@ public class CityLoader {
 		
 		doc.getDocumentElement().normalize();
 		allCityNames = new ArrayList<>();
-		cities = new ArrayList<>();
+		cities = new ArrayList<>();//全部城市
 		cityCards = new ArrayList<>();
 		infectionCards = new ArrayList<>();
 		
@@ -87,10 +87,18 @@ public class CityLoader {
 			throws SAXException, ParserConfigurationException, IOException {
 		return allCityNames;
 	}
+	public City getCityById(int id) {
+		for(City c:cities) {
+			if(c.getId()==id){
+				return c;
+			}
+		}
+		return null;
+	}
 	
 	public List<String> neighbours(String cityName) {
 		// TODO
-		List<String> neighbours = new ArrayList<String>();
+		/*List<String> neighbours = new ArrayList<String>();
 		int id = 0;
 		for(int i=0;i<allCityNames.size();i++) {
 			if(allCityNames.get(i).equals(cityName)) {
@@ -113,6 +121,30 @@ public class CityLoader {
 				 }else {
 					 neighbours.add(allCityNames.get(targetId-4));
 				 }
+			 }
+			 
+		}*/
+		//获得改城市id
+		int id=0;
+		for(City c:cities) {
+			if(cityName.equals(c.getName())) {
+				id=c.getId();
+			}
+		}
+		List<String> neighbours = new ArrayList<String>();
+		NodeList  nList = doc.getElementsByTagName("edge");
+		for(int  i = 0 ; i<nList.getLength();i++){
+			 Element element = (Element)nList.item(i);
+		   	
+			 int sourceId = Integer.parseInt(element.getAttribute("source"));
+			 if(id==sourceId) {
+				 int targetId = Integer.parseInt(element.getAttribute("target"));
+				 neighbours.add(this.getCityById(targetId).getName());
+			 }
+			 int targetId = Integer.parseInt(element.getAttribute("target"));
+			 if(id==targetId) {
+				 sourceId = Integer.parseInt(element.getAttribute("source"));
+				 neighbours.add(this.getCityById(sourceId).getName());
 			 }
 			 
 		}
@@ -158,11 +190,18 @@ public class CityLoader {
 				System.out.println(c);
 			}*/
 			
-			List<Card> cards = new ArrayList<>();
+			/*List<Card> cards = new ArrayList<>();
 			cards = parseur.getCityCards();
 			for(Card c : cards){
 				//c.setType("");
 				System.out.println(c);
+			}*/
+			List<String> neighbours=parseur.neighbours("Atlanta");
+	        for(String item : neighbours){
+				
+				
+				System.out.println(item);
+				
 			}
 			
 			System.out.println("fin");
