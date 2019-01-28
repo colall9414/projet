@@ -26,8 +26,8 @@ public class GameEngine implements GameInterface{
 	private CityLoader cl;
 	private Cards cards;//还未抽的卡
 	private int countInfection;//抽到蔓延卡的次数
-	private CityStates css; //城市状态
-	private DiseaseStates dss; //所有病毒全局状态
+	private CityStates cityStates; //城市状态
+	private DiseaseStates diseaseStates; //所有病毒全局状态
 	private int nbOutbreaks; //病毒爆发次数
 	private int turnDuration;//没回合最长持续时间(如果ai在规定时间内未作出判断则跳过？我猜是这样)
 
@@ -96,8 +96,8 @@ public class GameEngine implements GameInterface{
 		turnDuration = 3;//3秒判断时间
 		countInfection = 0;
 		nbOutbreaks = 0;
-		this.css = new CityStates(cl);
-		this.dss = new DiseaseStates();
+		this.cityStates = new CityStates(cl);
+		this.diseaseStates = new DiseaseStates();
 		this.cards = new Cards(cl);
 		//初始化玩家
 		player = new Player();
@@ -115,13 +115,33 @@ public class GameEngine implements GameInterface{
 		for(int i=0;i<3;i++) {
 			for(int j=0;j<3;j++) {
 				Card c = cards.drawInfectionCard();
-				css.addInfectionLevel(c.getCityName(), c.getDisease(), (3-j));
+				cityStates.addInfectionLevel(c.getCityName(), c.getDisease(), (3-j));
 			}
 		}
 	
+		//抽五张城市卡
+		for(int i=0;i<5;i++) {
+			player.draw(cards.drawCityCard());
+		}
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
 			//ai.playTurn(this, p);
+			/*每回合玩家做完四件事，还要抽两张城市卡，手上最多拿九张，多了要丢掉*/
+			/*如果是蔓延卡，则发生效果*/
+			for(int i=0; i<2; i++) {
+				Card c = cards.drawCityCard();
+				if(c.getType().equals("epidemic")) {
+					//如果是蔓延卡，则再抽一张病毒卡触发感染
+					City city = cards.drawInfectionCard().getCity();
+					/*感染*/
+					
+				}
+				else {
+					//如果是城市卡，则正常抽牌
+					player.draw(c);
+				}
+			}
+			ai.playTurn(this, player);
 			if(Math.random() < 0.5)
 				setDefeated("Game not implemented.", DefeatReason.UNKN);
 			else
@@ -150,13 +170,13 @@ public class GameEngine implements GameInterface{
 	@Override
 	public int infectionLevel(String cityName, Disease d) {
 		// TODO
-		return css.getInfectionLevel(cityName, d);
+		return cityStates.getInfectionLevel(cityName, d);
 	}
 
 	@Override
 	public boolean isCured(Disease d) {
 		// TODO
-		return dss.isCured(d);
+		return diseaseStates.isCured(d);
 	}
 
 	@Override
@@ -191,7 +211,7 @@ public class GameEngine implements GameInterface{
 	@Override
 	public boolean isEradicated(Disease d) {
 		// TODO
-		return dss.isEradicated(d);
+		return diseaseStates.isEradicated(d);
 		//throw new UnsupportedOperationException(); 
 	}
 

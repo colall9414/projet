@@ -47,6 +47,10 @@ public class CityStates {
 			}
 		}
 	}
+	//蔓延卡病毒蔓延效果
+	public void epidemic(City city) {
+		//自己infection+1
+	}
 	
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException {
 		String filename = "./pandemic.graphml";

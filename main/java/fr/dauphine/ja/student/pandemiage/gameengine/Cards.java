@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
 public class Cards {
 	private List<Card> cityCardArray; // 城市卡和蔓延卡是放在一起
 	private List<Card> infectionArray; //病毒卡
-	private List<Card> epidemicArray; //蔓延卡
+	//private List<Card> epidemicArray; //蔓延卡和城市卡是在一起的
 	
 	
 	public Cards(CityLoader cl) {

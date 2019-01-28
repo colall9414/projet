@@ -70,9 +70,10 @@ public class CityLoader {
 		   		if(r==153&&g==18&&b==21) {
 		   			d=Disease.RED;
 		   		}
-		   		Card card = new Card("city", id, cityName, d);
+		   		City city = new City(id, cityName);
+		   		Card card = new Card("city", city, d);
 		   		cityCards.add(card);
-		   		Card cardInfection = new Card("infection", id, cityName, d);
+		   		Card cardInfection = new Card("infection", city, d);
 		   		infectionCards.add(cardInfection);
 		   		//System.out.println("r: "+r+" g: "+g+" b: "+b);
 		   		//System.out.println();
