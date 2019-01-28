@@ -75,14 +75,6 @@ public class GameEngine implements GameInterface{
 
 
 		/* ... */
-
-	}
-
-
-	public void loop()  {
-		// Load Ai from Jar file
-		System.out.println("Loading AI Jar file " + aiJar);		
-		AiInterface ai = AiLoader.loadAi(aiJar);
 		//load city file
 		try {
 			System.out.println("loading cities...");	
@@ -118,14 +110,22 @@ public class GameEngine implements GameInterface{
 				cityStates.addInfectionLevel(c.getCityName(), c.getDisease(), (3-j));
 			}
 		}
-	
+			
 		//抽五张城市卡
 		for(int i=0;i<5;i++) {
 			player.draw(cards.drawCityCard());
 		}
+
+	}
+
+
+	public void loop()  {
+		// Load Ai from Jar file
+		System.out.println("Loading AI Jar file " + aiJar);		
+		AiInterface ai = AiLoader.loadAi(aiJar);
+		
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
-			//ai.playTurn(this, p);
 			/*每回合玩家做完四件事，还要抽两张城市卡，手上最多拿九张，多了要丢掉*/
 			/*如果是蔓延卡，则发生效果*/
 			for(int i=0; i<2; i++) {
