@@ -33,10 +33,12 @@ public class Cards {
 		for(int i=0;i<4;i++) {
 			//把城市卡分成4等分; 每一堆放一张蔓延卡(前五张是城市卡)
 			Card c = new Card();
-			int min=i*10;//每一等分有(48-5)/4=10.5张
-			int max=(i+1)*10;
+			int min=i*12;//每一等分有(48-5)/4=10.5张
+			int max=(i+1)*12;
+			//添加在固定四等分上面
+			cityCardArray.add(min+5,c);//+5是因为前五张是城市卡
 			//添加在随机min和max之间的位置
-			cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
+			//cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
 		}
 	}
 	public Card drawCityCard() {
