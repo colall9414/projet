@@ -76,7 +76,7 @@ public class GameEngine implements GameInterface{
 		this.gameStatus = GameStatus.ONGOING;
 
 
-		/* ... */
+		/* ... */
 		//load city file
 		try {
 			System.out.println("loading cities...");	
@@ -185,6 +185,12 @@ public class GameEngine implements GameInterface{
 			else
 				setVictorious();	*/
 			
+			//jouer l'infecteur
+			int nbcards = infectionRate();
+			for(int i=0; i<nbcards;i++) {
+				Card cInfect =cards.drawInfectionCard();
+				cityStates.addInfectionLevel(cInfect.getCityName(), cInfect.getDisease(), 1);
+			}
 		}
 	}						
 
