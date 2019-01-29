@@ -140,6 +140,8 @@ public class GameEngine implements GameInterface{
 			}
 			System.out.println("get 0?"+this.neighbours(player.playerLocation()).get(0));
 
+			ai.playTurn(this, player);//傻ai总会在旧金山是因为他走了四步总会走回来
+			
 			/*每回合玩家做完四件事，还要抽两张城市卡，手上最多拿九张，多了要丢掉*/
 			/*如果是蔓延卡，则发生效果*/
 			for(int i=0; i<2; i++) {
@@ -151,12 +153,17 @@ public class GameEngine implements GameInterface{
 					System.err.println("GOT INFECTION!! ");//提示受到了感染
 					System.err.println("GOT INFECTION!! ");//提示受到了感染
 					System.err.println("GOT INFECTION!! ");//提示受到了感染
-					cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), this.infectionRate());
+					cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), 3);//受到三次感染
 					
 				}
 				else {
 					//如果是城市卡，则正常抽牌
 					player.draw(c);
+				}
+				//如果卡大于9张，则要丢掉
+				if(player.getNbPlayerCardsLeft()>9) {
+					//ai.discard(g, p, 9, nbEpidemicCards)
+					//nbEpidemicCards? 为什么需要知道这个
 				}
 			}
 			/*try {
@@ -165,7 +172,6 @@ public class GameEngine implements GameInterface{
 			catch (UnauthorizedActionException e) {
 				e.printStackTrace();
 			}*/
-			ai.playTurn(this, player);//傻ai总会在旧金山是因为他走了四步总会走回来
 			
 			System.out.println("GameStatus now is: ");
 			System.err.println("Result: " + gameStatus);

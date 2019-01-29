@@ -35,22 +35,38 @@ public class CityState {
 			return false;
 		}
 		if(Disease.BLACK.equals(d)) {
+			if(blackInfect+level>3) {
+				blackInfect=3;
+				return true;
+			}
 			blackInfect+=level;
 		}
 		if(Disease.BLUE.equals(d)) {
+			if(blueInfect+level>3) {
+				blueInfect=3;
+				return true;
+			}
 			blueInfect+=level;
 		}
 		if(Disease.YELLOW.equals(d)) {
+			if(yellowInfect+level>3) {
+				yellowInfect=3;
+				return true;
+			}
 			yellowInfect+=level;
 		}
 		if(Disease.RED.equals(d)) {
+			if(redInfect+level>3) {
+				redInfect=3;
+				return true;
+			}
 			redInfect+=level;
 		}
 		//如果其中一种病毒大于三，则爆发
-		if(blackInfect>3||blueInfect>3||yellowInfect>3||redInfect>3) {
+		/*if(blackInfect>3||blueInfect>3||yellowInfect>3||redInfect>3) {
 			this.breakout=true;
 			return true;
-		}
+		}*/
 		//如果没有爆发，则返回false
 		return false;
 		
