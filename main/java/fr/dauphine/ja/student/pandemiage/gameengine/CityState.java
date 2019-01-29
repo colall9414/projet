@@ -37,6 +37,7 @@ public class CityState {
 		if(Disease.BLACK.equals(d)) {
 			if(blackInfect+level>3) {
 				blackInfect=3;
+				this.breakout=true;
 				return true;
 			}
 			blackInfect+=level;
@@ -44,6 +45,7 @@ public class CityState {
 		if(Disease.BLUE.equals(d)) {
 			if(blueInfect+level>3) {
 				blueInfect=3;
+				this.breakout=true;
 				return true;
 			}
 			blueInfect+=level;
@@ -51,6 +53,7 @@ public class CityState {
 		if(Disease.YELLOW.equals(d)) {
 			if(yellowInfect+level>3) {
 				yellowInfect=3;
+				this.breakout=true;
 				return true;
 			}
 			yellowInfect+=level;
@@ -58,6 +61,7 @@ public class CityState {
 		if(Disease.RED.equals(d)) {
 			if(redInfect+level>3) {
 				redInfect=3;
+				this.breakout=true;
 				return true;
 			}
 			redInfect+=level;
