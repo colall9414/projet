@@ -3,6 +3,7 @@ package fr.dauphine.ja.student.pandemiage.gameengine;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import fr.dauphine.ja.pandemiage.common.AiInterface;
 import fr.dauphine.ja.pandemiage.common.AiLoader;
@@ -10,6 +11,7 @@ import fr.dauphine.ja.pandemiage.common.DefeatReason;
 import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.GameStatus;
+import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 /**
  * Empty GameEngine implementing GameInterface
@@ -124,16 +126,32 @@ public class GameEngine implements GameInterface{
 		System.out.println("Loading AI Jar file " + aiJar);		
 		AiInterface ai = AiLoader.loadAi(aiJar);
 		
+		Scanner in = new Scanner(System.in);
+		
+		printGameStats();//查看当前状况
+		System.err.println("Player is now at "+player.playerLocation());//显示当前player在哪
+		System.out.println("Game ready, go? (enter something to start)");
+		in.next();//用于阻塞, 玩家随意输入字符后开始
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
+			System.err.println("Player's neib are :");//显示当前player在哪
+			for(String neib: this.neighbours(player.playerLocation())) {
+				System.out.println(neib);
+			}
+			System.out.println("get 0?"+this.neighbours(player.playerLocation()).get(0));
+
 			/*每回合玩家做完四件事，还要抽两张城市卡，手上最多拿九张，多了要丢掉*/
 			/*如果是蔓延卡，则发生效果*/
 			for(int i=0; i<2; i++) {
 				Card c = cards.drawCityCard();
 				if(c.getType().equals("epidemic")) {
 					//如果是蔓延卡，则再抽一张病毒卡触发感染
-					City city = cards.drawInfectionCard().getCity();
+					Card drawInfection = cards.drawInfectionCard();
 					/*感染*/
+					System.err.println("GOT INFECTION!! ");//提示受到了感染
+					System.err.println("GOT INFECTION!! ");//提示受到了感染
+					System.err.println("GOT INFECTION!! ");//提示受到了感染
+					cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), this.infectionRate());
 					
 				}
 				else {
@@ -141,11 +159,26 @@ public class GameEngine implements GameInterface{
 					player.draw(c);
 				}
 			}
-			ai.playTurn(this, player);
-			if(Math.random() < 0.5)
+			/*try {
+				player.moveTo(this.neighbours(player.playerLocation()).get(0));	
+			}
+			catch (UnauthorizedActionException e) {
+				e.printStackTrace();
+			}*/
+			ai.playTurn(this, player);//傻ai总会在旧金山是因为他走了四步总会走回来
+			
+			System.out.println("GameStatus now is: ");
+			System.err.println("Result: " + gameStatus);
+			printGameStats();//查看当前状况
+			System.err.println("Player is now at "+player.playerLocation());//显示当前player在哪
+			
+			in.next();//用于阻塞每一回合
+			
+			/*if(Math.random() < 0.5)
 				setDefeated("Game not implemented.", DefeatReason.UNKN);
 			else
-				setVictorious();			
+				setVictorious();	*/
+			
 		}
 	}						
 

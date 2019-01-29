@@ -62,6 +62,7 @@ public class CityStates {
 				else {
 					return 0;
 				}
+				//莫宝宝之前写的
 				/*int nb = getInfectionLevel(cityName,d)+level;
 					if(nb<=3) {
 						cs.addInfectionLevel(d,level);
