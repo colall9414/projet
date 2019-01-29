@@ -41,7 +41,7 @@ public class Card implements PlayerCardInterface{
 	@Override
 	public Disease getDisease() {
 		// TODO Auto-generated method stub
-		return null;
+		return disease;
 	}
 	
 }

@@ -8,29 +8,32 @@ import fr.dauphine.ja.pandemiage.common.Disease;
 public class CityState {
 	
 	City city;
-	Disease d;
 	int yellowInfect;
 	int blueInfect;
 	int redInfect;
 	int blackInfect;
-
+	boolean breakout;//该城市是否爆发过
+	
 	
 
 	
 	public CityState(City city) {
 		this.city = city;
-		this.d = null;
 		this.yellowInfect = 0;
 		this.blueInfect = 0;
 		this.redInfect = 0;
 		this.blackInfect = 0;
-		
+		this.breakout=false;
 	}
 
 
 
-	public void addInfectionLevel(Disease d, int level) {
-		
+	//如果这次感染造成了病毒爆发，返回true，否则返回false
+	public boolean addInfectionLevel(Disease d, int level) {
+		//如果已经爆发过，则直接跳过，什么都不用做返回false
+		if(this.breakout==true) {
+			return false;
+		}
 		if(Disease.BLACK.equals(d)) {
 			blackInfect+=level;
 		}
@@ -43,9 +46,24 @@ public class CityState {
 		if(Disease.RED.equals(d)) {
 			redInfect+=level;
 		}
+		//如果其中一种病毒大于三，则爆发
+		if(blackInfect>3||blueInfect>3||yellowInfect>3||redInfect>3) {
+			this.breakout=true;
+			return true;
+		}
+		//如果没有爆发，则返回false
+		return false;
 		
 		
 	}
+	@Override
+	public String toString() {
+		return "CityState [city=" + city  + ", yellowInfect=" + yellowInfect + ", blueInfect=" + blueInfect
+				+ ", redInfect=" + redInfect + ", blackInfect=" + blackInfect + ", breakout=" + breakout + "]";
+	}
+
+
+
 	public City getCity() {
 		return this.city;
 	}

@@ -9,19 +9,18 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface{
-	private int action;//还剩几次操作机会
+	//private int action;//还剩几次操作机会
 	private String currentCity;//所在城市
 	private List<Card> cardOnHand; //手上有的卡
 	
 	
 	public Player() {
-		action = 3;
+		//action = 3;
 		this.currentCity = "Atlanta";//出生地在亚特兰大
 		this.cardOnHand =  new ArrayList<>();
 	}
 	//抽牌
 	public void draw(Card c) {
-		//如果疾病已经根除需要弃卡
 		this.cardOnHand.add(c);
 	}
 	@Override
@@ -39,7 +38,7 @@ public class Player implements PlayerInterface{
 				this.cardOnHand.remove(c);
 			}
 		}
-		action--;
+		//action--;
 	}
 
 	@Override
@@ -50,13 +49,14 @@ public class Player implements PlayerInterface{
 			}
 		}
 		this.currentCity = cityName;
-		action--;
+		//action--;
 		
 	}
 
 	@Override
 	public void skipTurn() {
-		action = 0;
+		//action = 0;
+		//do nothing?
 	}
 
 	@Override
@@ -87,9 +87,9 @@ public class Player implements PlayerInterface{
 		return cardOnHand;
 	}
 	
-	public int getAction() {
+	/*public int getAction() {
 		return this.action;
-	}
+	}*/
 	public int getNbPlayerCardsLeft() {
 		return cardOnHand.size();
 	}
