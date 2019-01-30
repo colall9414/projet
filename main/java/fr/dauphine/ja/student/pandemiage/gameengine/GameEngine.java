@@ -1,9 +1,14 @@
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import fr.dauphine.ja.pandemiage.common.AiInterface;
 import fr.dauphine.ja.pandemiage.common.AiLoader;
@@ -70,7 +75,7 @@ public class GameEngine implements GameInterface{
 		System.err.println("Nb-player-cards-left:"+getNbPlayerCardsLeft());
 	}
 
-	public GameEngine(String cityGraphFilename, String aiJar){
+	public GameEngine(String cityGraphFilename, String aiJar) throws SAXException, ParserConfigurationException, IOException{
 		this.cityGraphFilename = cityGraphFilename; 
 		this.aiJar = aiJar; 
 		this.gameStatus = GameStatus.ONGOING;
@@ -192,7 +197,7 @@ public class GameEngine implements GameInterface{
 			for(int i=0; i<nbcards;i++) {
 				Card cInfect =cards.drawInfectionCard();
 				cityStates.addInfectionLevel(cInfect.getCityName(), cInfect.getDisease(), 1);
-				System.out.println(cityStates.getInfectionLevel(cInfect.getCityName(),cInfect.getDisease()));
+				//System.out.println(cityStates.getInfectionLevel(cInfect.getCityName(),cInfect.getDisease()));
 			}
 			in.next();//用于阻塞每一回合
 			
@@ -261,7 +266,13 @@ public class GameEngine implements GameInterface{
 	@Override
 	public boolean isEradicated(Disease d) {
 		// TODO
-		return diseaseStates.isEradicated(d);
+		boolean flag=true;
+		for(CityState cs : cityStates.statesArray) {
+			if(cs.getAffectionLevel(d)!=0) {
+				flag=false;
+			}
+		}
+		return flag&&diseaseStates.isEradicated(d);
 		//throw new UnsupportedOperationException(); 
 	}
 
@@ -277,6 +288,13 @@ public class GameEngine implements GameInterface{
 		// TODO 
 		return player.getNbPlayerCardsLeft();
 		//throw new UnsupportedOperationException(); 
+	}
+	
+	public void treatDisease(Disease d) {
+		if(isCured(d)) {
+			
+		}
+		
 	}
 	
 }

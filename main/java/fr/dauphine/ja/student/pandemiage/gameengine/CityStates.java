@@ -62,23 +62,7 @@ public class CityStates {
 				else {
 					return 0;
 				}
-				//莫宝宝之前写的
-				/*int nb = getInfectionLevel(cityName,d)+level;
-					if(nb<=3) {
-						cs.addInfectionLevel(d,level);
-					}else {
-						//never break out
-						if(!breakOut) {
-							
-							breakOut=true;
-							List<String> l = ge.neighbours(cityName);
-							for(String s: l) {
-								addInfectionLevel(s,d,1);
-							}
-							nbOutBreak++;
-						}
-					}
-					*/
+				
 			}
 		}
 		//如果没找到改城市(理论上不可能发生的事情，则也返回0)

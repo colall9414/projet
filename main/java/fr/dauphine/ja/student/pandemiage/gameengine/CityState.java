@@ -102,6 +102,35 @@ public class CityState {
 		}
 		return 0;
 	}
+	//mettre le cube de disease d a 0
+	public void cubeMAZ(Disease d) {
+		if(Disease.BLACK.equals(d)) {
+			 blackInfect=0;
+		}
+		if(Disease.BLUE.equals(d)) {
+			 blueInfect=0;
+		}
+		if(Disease.YELLOW.equals(d)) {
+			yellowInfect=0;
+		}
+		if(Disease.RED.equals(d)) {
+			redInfect=0;
+		}
+	}
+	public void minusUnCube(Disease d) {
+		if(Disease.BLACK.equals(d)) {
+			 blackInfect--;
+		}
+		if(Disease.BLUE.equals(d)) {
+			 blueInfect--;
+		}
+		if(Disease.YELLOW.equals(d)) {
+			yellowInfect--;
+		}
+		if(Disease.RED.equals(d)) {
+			redInfect--;
+		}
+	}
 
 	
 

@@ -9,12 +9,14 @@ public class DiseaseState {
 	Disease d;
 	boolean isCured;
 	boolean isEradicated;
+
 	
 	public DiseaseState(Disease d) {
 		
 		this.d = d;
 		this.isCured = false;
 		this.isEradicated = false;
+
 	}
 	
 	public void cured(Disease d) {
@@ -57,6 +59,7 @@ public class DiseaseState {
     public Disease getDisease() {
     	return this.d;
     }
+  
 	
 	
 	
