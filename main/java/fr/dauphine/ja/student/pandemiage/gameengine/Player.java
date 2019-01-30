@@ -10,12 +10,14 @@ import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface{
 	//private int action;//还剩几次操作机会
+	private GameEngine g;
 	private String currentCity;//所在城市
 	private List<Card> cardOnHand; //手上有的卡
 	
 	
-	public Player() {
+	public Player(GameEngine g) {
 		//action = 3;
+		this.g=g;
 		this.currentCity = "Atlanta";//出生地在亚特兰大
 		this.cardOnHand =  new ArrayList<>();
 	}
