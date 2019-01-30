@@ -178,7 +178,7 @@ public class GameEngine implements GameInterface{
 			printGameStats();//查看当前状况
 			System.err.println("Player is now at "+player.playerLocation());//显示当前player在哪
 			
-			in.next();//用于阻塞每一回合
+			
 			
 			/*if(Math.random() < 0.5)
 				setDefeated("Game not implemented.", DefeatReason.UNKN);
@@ -186,11 +186,16 @@ public class GameEngine implements GameInterface{
 				setVictorious();	*/
 			
 			//jouer l'infecteur
+			System.out.println("jouer l'infecteur: ");
 			int nbcards = infectionRate();
+			System.out.println("draw infection card: " +nbcards);
 			for(int i=0; i<nbcards;i++) {
 				Card cInfect =cards.drawInfectionCard();
 				cityStates.addInfectionLevel(cInfect.getCityName(), cInfect.getDisease(), 1);
+				System.out.println(cityStates.getInfectionLevel(cInfect.getCityName(),cInfect.getDisease()));
 			}
+			in.next();//用于阻塞每一回合
+			
 		}
 	}						
 
