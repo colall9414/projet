@@ -16,7 +16,6 @@ import fr.dauphine.ja.pandemiage.common.DefeatReason;
 import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.GameStatus;
-import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 /**
  * Empty GameEngine implementing GameInterface
@@ -75,7 +74,7 @@ public class GameEngine implements GameInterface{
 		System.err.println("Nb-player-cards-left:"+getNbPlayerCardsLeft());
 	}
 
-	public GameEngine(String cityGraphFilename, String aiJar) throws SAXException, ParserConfigurationException, IOException{
+	public GameEngine(String cityGraphFilename, String aiJar){
 		this.cityGraphFilename = cityGraphFilename; 
 		this.aiJar = aiJar; 
 		this.gameStatus = GameStatus.ONGOING;
@@ -99,7 +98,7 @@ public class GameEngine implements GameInterface{
 		this.diseaseStates = new DiseaseStates();
 		this.cards = new Cards(cl);
 		//初始化玩家
-		player = new Player();
+		player = new Player(this);
 		//给玩家发牌
 		/*
 		 * for(int i=0; i<4; i++){
@@ -266,13 +265,17 @@ public class GameEngine implements GameInterface{
 	@Override
 	public boolean isEradicated(Disease d) {
 		// TODO
+		//是不是有解药
+		if(diseaseStates.isCured(d)==false) {
+			return false;
+		}
 		boolean flag=true;
 		for(CityState cs : cityStates.statesArray) {
 			if(cs.getAffectionLevel(d)!=0) {
 				flag=false;
 			}
 		}
-		return flag&&diseaseStates.isEradicated(d);
+		return flag;
 		//throw new UnsupportedOperationException(); 
 	}
 
@@ -292,7 +295,11 @@ public class GameEngine implements GameInterface{
 	
 	public void treatDisease(Disease d) {
 		if(isCured(d)) {
-			
+			//if it is cured
+			cityStates.cubeToZero(d,player.playerLocation());
+		}
+		else {
+			cityStates.minusUnCube(d,player.playerLocation());
 		}
 		
 	}

@@ -1,3 +1,4 @@
+
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
 import java.io.IOException;
@@ -78,6 +79,22 @@ public class CityStates {
 		int nbOutbreaks = 0;
 		nbOutbreaks+=addInfectionLevel(cityName,d, infectionRate);
 		return nbOutbreaks;
+	}
+	//治疗城市的病毒, 变为0
+	public void cubeToZero(Disease d, String cityName) {
+		for(CityState cs:statesArray) {
+			if(cs.getCity().getName().equals(cityName)) {
+				cs.cubeToZero(d);
+			}
+		}
+	}
+	//治疗城市的病毒, 减1
+	public void minusUnCube(Disease d, String cityName) {
+		for(CityState cs:statesArray) {
+			if(cs.getCity().getName().equals(cityName)) {
+				cs.minusUnCube(d);
+			}
+		}
 	}
 	//显示所有城市状况
 	public void showCityStates() {

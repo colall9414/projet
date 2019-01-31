@@ -103,7 +103,7 @@ public class CityState {
 		return 0;
 	}
 	//mettre le cube de disease d a 0
-	public void cubeMAZ(Disease d) {
+	public void cubeToZero(Disease d) {
 		if(Disease.BLACK.equals(d)) {
 			 blackInfect=0;
 		}
