@@ -12,7 +12,7 @@ public class CityState {
 	int blueInfect;
 	int redInfect;
 	int blackInfect;
-	boolean breakout;//该城市是否爆发过
+	boolean breakout;//Has the city erupted?
 	
 	
 
@@ -28,9 +28,9 @@ public class CityState {
 
 
 
-	//如果这次感染造成了病毒爆发，返回true，否则返回false
+	//Return true if this infection caused a virus outbreak, otherwise return false
 	public boolean addInfectionLevel(Disease d, int level) {
-		//如果已经爆发过，则直接跳过，什么都不用做返回false
+		//If it has already erupted, skip it directly and do nothing, return false.
 		if(this.breakout==true) {
 			return false;
 		}
@@ -66,12 +66,8 @@ public class CityState {
 			}
 			redInfect+=level;
 		}
-		//如果其中一种病毒大于三，则爆发
-		/*if(blackInfect>3||blueInfect>3||yellowInfect>3||redInfect>3) {
-			this.breakout=true;
-			return true;
-		}*/
-		//如果没有爆发，则返回false
+		
+		//Return false if there is no outbreak
 		return false;
 		
 		
@@ -102,7 +98,7 @@ public class CityState {
 		}
 		return 0;
 	}
-	//mettre le cube de disease d a 0
+	//Change the number of viruses of the corresponding color to 0
 	public void cubeToZero(Disease d) {
 		if(Disease.BLACK.equals(d)) {
 			 blackInfect=0;
@@ -117,6 +113,7 @@ public class CityState {
 			redInfect=0;
 		}
 	}
+	//Subtract a virus of the corresponding color
 	public void minusUnCube(Disease d) {
 		if(Disease.BLACK.equals(d)) {
 			 blackInfect--;

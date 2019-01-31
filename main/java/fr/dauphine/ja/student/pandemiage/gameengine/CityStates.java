@@ -1,4 +1,3 @@
-
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
 import java.io.IOException;
@@ -46,18 +45,18 @@ public class CityStates {
 	public int addInfectionLevel(String cityName, Disease d, int infectionRate) {
 		for(CityState cs : statesArray){
 			if(cs.getCity().getName().equals(cityName)) {
-				// explode or not? //通过返回值判断是否爆发
+				// explode or not? 
 				boolean breakOut=cs.addInfectionLevel(d, infectionRate);
-				//如果爆发了
+				//if explode
 				if(breakOut==true) {
-					//则把邻居也感染
-					int nbOutBreak=0;//邻居爆发的次数
+					//Then infected the neighbors
+					int nbOutBreak=0;//Number of neighbor outbreaks
 					List<String> neighbours = cl.neighbours(cityName);
 					for(String cityNameNeighbours : neighbours) {
-						//注意，这里的infectionRate是加一，而不是加infectionRate, 因为邻居是被感染波及的只会加1
+						
 						nbOutBreak+=this.epidemic(cityNameNeighbours, d, 1);
 					}
-					//结果数量上加一, 因为自己爆发了, 加上自己爆发的1
+					//Add one to the number of results, because you also broke out
 					return 1+nbOutBreak;
 				}
 				else {
@@ -66,21 +65,20 @@ public class CityStates {
 				
 			}
 		}
-		//如果没找到改城市(理论上不可能发生的事情，则也返回0)
+		//If you don't find a change to the city (then things that can't happen theoretically, it also returns 0)
 		return 0;
 	}
 	
 	
-	//蔓延卡病毒蔓延效果
-	//cityLoader是为了获得邻居
-	//city=>被感染的城市 disease=>被感染的病毒种类 infectionRate=>被感染程度(2或3或4)
+	//if the player draw a epdemic card
+	//city=>Infected citydisease=>Infected virus species infectionRate=>Degree of infection(2or3or4)
 	public int epidemic(String cityName, Disease d, int infectionRate) {
-		//加上infectionRate次
+
 		int nbOutbreaks = 0;
 		nbOutbreaks+=addInfectionLevel(cityName,d, infectionRate);
 		return nbOutbreaks;
 	}
-	//治疗城市的病毒, 变为0
+	//Treating the city's virus, numbre of virus d becoming 0
 	public void cubeToZero(Disease d, String cityName) {
 		for(CityState cs:statesArray) {
 			if(cs.getCity().getName().equals(cityName)) {
@@ -88,7 +86,7 @@ public class CityStates {
 			}
 		}
 	}
-	//治疗城市的病毒, 减1
+	//Subtract a virus of the corresponding color
 	public void minusUnCube(Disease d, String cityName) {
 		for(CityState cs:statesArray) {
 			if(cs.getCity().getName().equals(cityName)) {
@@ -96,7 +94,7 @@ public class CityStates {
 			}
 		}
 	}
-	//显示所有城市状况
+	//Show all city conditions
 	public void showCityStates() {
 		for(CityState cs: statesArray) {
 			System.out.println(cs);

@@ -14,6 +14,7 @@ public class DiseaseStates {
 		this.ldise = new ArrayList<>();
 	}
 	public boolean isCured(Disease d) {
+		
 		for(DiseaseState ds: ldise) {
 			if(ds.getDisease().equals(d)) {
 				return ds.getIsCured();

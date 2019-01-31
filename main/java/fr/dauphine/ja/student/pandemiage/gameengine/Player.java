@@ -10,18 +10,18 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface{
-	private int action;//还剩几次操作机会
+	private int action;//actions left
 	private GameEngine g;
-	private String currentCity;//所在城市
-	private List<Card> cardOnHand; //手上有的卡
+	private String currentCity;//currentCity
+	private List<Card> cardOnHand; //Card on hand
 	
 	public Player(GameEngine g) {
 		action = 4;
 		this.g=g;
-		this.currentCity = "Atlanta";//出生地在亚特兰大
+		this.currentCity = "Atlanta";//city initial
 		this.cardOnHand =  new ArrayList<>();
 	}
-	//抽牌
+	//draw the card
 	public void draw(Card c) {
 		this.cardOnHand.add(c);
 	}

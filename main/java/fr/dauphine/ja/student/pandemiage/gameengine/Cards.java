@@ -10,14 +10,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Cards {
-	private List<Card> cityCardArray; // 城市卡和蔓延卡是放在一起
-	private List<Card> infectionArray; //病毒卡
-	//private List<Card> epidemicArray; //蔓延卡和城市卡是在一起的
+	private List<Card> cityCardArray; // city card and epidemic card will put together
+	private List<Card> infectionArray; //infection card
+	//private List<Card> epidemicArray;
 	
 	
 	public Cards(CityLoader cl) {
-		//蔓延卡7张
-		//病毒卡和城市卡一样多
+		
 		this.cityCardArray = new ArrayList<Card>();
 		try {
 			cityCardArray=cl.getCityCards();
@@ -26,35 +25,36 @@ public class Cards {
 		catch (Exception e ){
 			e.printStackTrace();
 		}
-		//打乱顺序
+		//mess up the order
 		Collections.shuffle(cityCardArray);
 		Collections.shuffle(infectionArray);
-		//创建四张蔓延卡
+		//Create four epidemic cards
 		for(int i=0;i<4;i++) {
-			//把城市卡分成4等分; 每一堆放一张蔓延卡(前五张是城市卡)
+			//Divide the city card into 4 equal parts; put a epidemic card for each stack (the first five are city cards)
 			Card c = new Card();
-			int min=i*12;//每一等分有(48-5)/4=10.5张
+			int min=i*12;
 			int max=(i+1)*12;
-			//添加在固定四等分上面
-			cityCardArray.add(min+5,c);//+5是因为前五张是城市卡
-			//添加在随机min和max之间的位置
+
+			//Add on a fixed quarter
+			cityCardArray.add(min+5,c);//+5 Because the first five are city cards.
+			//Add a position between random min and max
 			//cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
 		}
 	}
 	public Card drawCityCard() {
-		//抽一张城市卡 (蔓延卡也放在这里)
+		//Take a city card (epidemic card is also here)
 		Card c = cityCardArray.get(cityCardArray.size()-1);
 		cityCardArray.remove(cityCardArray.size()-1);
 		return c;
 	}
 	public Card drawInfectionCard() {
-		//抽一张病毒卡
+		//Draw a infection card
 		Card c = infectionArray.get(infectionArray.size()-1);
 		infectionArray.remove(infectionArray.size()-1);
 		return c;
 	}
 	public List<Card> getCityCards(){
-		//获得所有城市卡(蔓延卡也在这里)
+		//Get all city cards (epidemic card is also here)
 		return cityCardArray;
 	}
 	public List<Card> getInfectionCards(){

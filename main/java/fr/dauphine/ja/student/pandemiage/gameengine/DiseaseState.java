@@ -20,31 +20,7 @@ public class DiseaseState {
 	}
 	
 	public void cured(Disease d) {
-		
-		
 		isCured = true;
-		/*
-		int count=0; //The number of city cards with corresponding colors
-		int nbcard=5;
-		List<Card> lcards = cards.getCityCards();
-		for(Card c:lcards) {
-			if(c.getDisease().equals(d)) {
-				count++;
-			}
-			if(count==nbcard) {
-				isCuried = true;
-				
-			}
-		}
-		if(isCuried) {
-			for(Card c:lcards) {
-				if(c.getDisease().equals(d)&&nbcard>0) {
-			         cards.remove(c);
-			         nbcard--;
-				}
-			}
-		}
-		*/
 	}
 
 	public void eradicated(Disease d) {

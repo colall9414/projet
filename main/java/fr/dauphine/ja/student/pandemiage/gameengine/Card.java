@@ -5,15 +5,15 @@ import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
 
 
 public class Card implements PlayerCardInterface{
-	private String type; //蔓延卡，城市卡，病毒卡: epidemic, city, infection
+	private String type; //type: epidemic, city, infection
 	private City city;
 	//private String cityName;
 	private Disease disease;
-	//如果是蔓延卡 
+	//If it is a epidemic card
 	public Card() {
 		this.type = "epidemic";
 	};
-	//如果是城市卡或者病毒卡
+	//If it is a city card or a infection card
 	public Card(String type, City city, Disease disease) {
 		this.type = type;
 		this.city=city;
