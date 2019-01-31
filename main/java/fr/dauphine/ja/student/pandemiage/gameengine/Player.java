@@ -74,6 +74,22 @@ public class Player implements PlayerInterface{
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
 		// TODO Auto-generated method stub
+		boolean flag;
+		for (int i = 0; i < cardNames.size() - 1; i++){
+			for (int j = i + 1; j < cardNames.size(); j++){
+				
+				if(!cardNames.get(i).getDisease().equals(cardNames.get(j).getDisease())) {
+					flag =false;
+				}	
+			}	
+		}
+		flag = true;
+		if(flag) {
+			Disease d = cardNames.get(0).getDisease();
+			DiseaseState ds = new DiseaseState(d);
+			ds.cured(d);
+			
+		}
 		
 	}
 
