@@ -1,6 +1,7 @@
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import fr.dauphine.ja.pandemiage.common.Disease;
@@ -9,14 +10,13 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface{
-	//private int action;//还剩几次操作机会
+	private int action;//还剩几次操作机会
 	private GameEngine g;
 	private String currentCity;//所在城市
 	private List<Card> cardOnHand; //手上有的卡
 	
-	
 	public Player(GameEngine g) {
-		//action = 3;
+		action = 4;
 		this.g=g;
 		this.currentCity = "Atlanta";//出生地在亚特兰大
 		this.cardOnHand =  new ArrayList<>();
@@ -27,41 +27,57 @@ public class Player implements PlayerInterface{
 	}
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		//判断他的邻居是不是要去的城市
-		/* if(g.neib...
-		 * */
-		this.currentCity = cityName;
+		Iterator<String> iter = g.neighbours(currentCity).iterator();
+		
+		while(iter.hasNext()){
+		    if(iter.next().equals(cityName)) {
+		    	this.currentCity = cityName;
+		    	
+		    }
+		}
+		if(!this.currentCity .equals(cityName)) {
+			throw new UnauthorizedActionException();
+		}
+		
+		action--;
 	}
 
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
-		//先判断他的手牌有没有改城市
-		/*if...*/
+	
 		// TODO Auto-generated method stub
-		this.currentCity = cityName;
+		
 		for(PlayerCardInterface c : cardOnHand){
 			if(c.getCityName().equals(cityName)) {
+				this.currentCity = cityName;
 				this.cardOnHand.remove(c);
 			}
 		}
-		//action--;
+		if(!this.currentCity .equals(cityName)) {
+			throw new UnauthorizedActionException();
+		}
+		action--;
 	}
 
 	@Override
 	public void flyToCharter(String cityName) throws UnauthorizedActionException {
 		for(PlayerCardInterface c : cardOnHand){
 			if(c.getCityName().equals(this.currentCity)) {
+				
+				this.currentCity = cityName;
 				this.cardOnHand.remove(c);
 			}
 		}
-		this.currentCity = cityName;
-		//action--;
+		if(!this.currentCity .equals(cityName)) {
+			throw new UnauthorizedActionException();
+		}
+		action--;
 		
 	}
 
 	@Override
 	public void skipTurn() {
-		//action = 0;
+		action = 0;
 		//do nothing?
 	}
 
@@ -118,6 +134,31 @@ public class Player implements PlayerInterface{
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		String aijar ="./target/pandemiage-1.0-SNAPSHOT-ai.jar";
+		String cityGraphFile ="./pandemic.graphml";
+		GameEngine ge = new GameEngine(cityGraphFile, aijar);
+		Player p = new Player(ge);
+		City c1 = new City(1,"paris");
+		City c2 = new City(2,"beijing");
+		City c3 = new City(3,"shanghai");
+		City c4 = new City(4,"guilin");
+		Card ca1 = new Card("city",c1,Disease.BLACK );
+		Card ca2 = new Card("city",c2,Disease.BLUE);
+		Card ca3 = new Card("infection",c3,Disease.BLUE);
+		Card ca4 = new Card("infection",c4,Disease.RED);
+		p.draw(ca1);
+		p.draw(ca2);
+		p.draw(ca3);
+		p.draw(ca4);
+		try {
+			p.moveTo("Chicago");
+		} catch (UnauthorizedActionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 		
 	}
 
