@@ -23,13 +23,26 @@ public class DiseaseStates {
 		return false;
 		
 	}
-	public boolean isEradicated(Disease d) {
+	/*public boolean isEradicated(Disease d) {
 		for(DiseaseState ds: ldise) {
 			if(ds.getDisease().equals(d)) {
 				return ds.getEradicated();
 			}
 		}
 		return false;
+	}*/
+	public void discoverCure(Disease d) {
+		for(DiseaseState ds: ldise) {
+			if(ds.getDisease().equals(d)) {
+				ds.cured();
+			}
+		}
+	}
+	public List<DiseaseState> getLdise() {
+		return ldise;
+	}
+	public void setLdise(List<DiseaseState> ldise) {
+		this.ldise = ldise;
 	}
 	
 

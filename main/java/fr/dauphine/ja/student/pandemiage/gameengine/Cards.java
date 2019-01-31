@@ -36,9 +36,9 @@ public class Cards {
 			int max=(i+1)*12;
 
 			//Add on a fixed quarter
-			cityCardArray.add(min+5,c);//+5 Because the first five are city cards.
+			//cityCardArray.add(min+5,c);//+5 Because the first five are city cards.
 			//Add a position between random min and max
-			//cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
+			cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
 		}
 	}
 	public Card drawCityCard() {

@@ -133,47 +133,84 @@ public class GameEngine implements GameInterface{
 		in.next();//Used for blocking, the player starts typing arbitrarily characters 
 		// Very basic game loop
 		while(gameStatus == GameStatus.ONGOING) {
-			System.err.println("Player's neib are :");//Show where the current player is
+			System.out.println("Current place: "+this.neighbours(player.playerLocation()).get(0));//Show where the current player is
+
+			System.err.println("Player's neib are :");
 			for(String neib: this.neighbours(player.playerLocation())) {
 				System.out.println(neib);
 			}
-			System.out.println("get 0?"+this.neighbours(player.playerLocation()).get(0));
-
-			ai.playTurn(this, player);//stupid ai will always be in San Francisco because he will walk back four steps.
 			
-			/*every round player will do 4 actions，and then draw 2 cards，and then drawing the corresponding number of infected virus cards
+			/*every round player will draw 2 cards，do 4actions and then drawing the corresponding number of infected virus cards
 			 *  Take up to nine in your hand, throw away if cards on hand >9
 			 * 
 			/*If it is a epidemic card, the effect will occur*/
+			//step 1: draw cards
+			int nbEpidemicCards=0;
 			for(int i=0; i<2; i++) {
 				Card c = cards.drawCityCard();
 				if(c.getType().equals("epidemic")) {
 					//f it is a epidemic card, then draw another virus card
 					Card drawInfection = cards.drawInfectionCard();
 					/*infection感染*/
-					System.err.println("GOT INFECTION!! ");//Prompt infected
-					System.err.println("GOT INFECTION!! ");//Prompt infected
-					System.err.println("GOT INFECTION!! ");//Prompt infected
+					System.err.println("GOT Epidemic!! ");//Prompt infected
+					System.err.println("GOT Epidemic!! ");//Prompt infected
+					System.err.println("GOT Epidemic!! ");//Prompt infected
 					cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), 3);
+					nbEpidemicCards++;
+					countInfection++;
 					
 				}
 				else {
-
-           //if it is a city card, then the normal draw
+					//if it is a city card, then the normal draw
 					player.draw(c);
 				}
 				//If the numbre of card is larger than 9, you need to throw it.
 				if(player.getNbPlayerCardsLeft()>9) {
-					//ai.discard(g, p, 9, nbEpidemicCards)
-					//nbEpidemicCards? 为什么需要知道这个
+					//ai得丢牌
+					ai.discard(this, player, 9, nbEpidemicCards);
 				}
 			}
-			/*try {
-				player.moveTo(this.neighbours(player.playerLocation()).get(0));	
+			//step 2: play turn
+			ai.playTurn(this, player);//stupid ai will always be in San Francisco because he will walk back four steps.
+			
+			
+			//step 3: play as infecteur
+			System.out.println("jouer l'infecteur: ");
+			int nbcards = infectionRate();
+			System.out.println("draw infection card: " +nbcards);
+			for(int i=0;i<nbcards;i++) {
+				//check if the disease is eradicated
+				Card c = cards.drawInfectionCard();
+				if(this.isEradicated(c.getDisease())==true) {
+					continue;//if is eradicated do nothing
+				}
+				//otherwise add infectionlevel to the city of card
+				cityStates.addInfectionLevel(c.getCityName(), c.getDisease(), 1);
 			}
-			catch (UnauthorizedActionException e) {
-				e.printStackTrace();
-			}*/
+			//check if we win
+			boolean flag_win=true;
+			for(DiseaseState d : diseaseStates.getLdise()) {
+				if(d.isCured==false) {
+					flag_win=false;
+				}
+			}
+			if(flag_win==true) {
+				setVictorious();
+			}
+			
+			//check if we lose
+			//if threre's no more disease cube(no more infection card) 
+			if(cards.getInfectionCards().size()==0) {
+				setDefeated("",DefeatReason.NO_MORE_BLOCKS);
+			}
+			//more than 8 outbreaks
+			if(this.getNbOutbreaks()>=8) {
+				setDefeated("",DefeatReason.TOO_MANY_OUTBREAKS);
+			}
+			//no more city card
+			if(cards.getCityCards().size()==0) {
+				setDefeated("",DefeatReason.NO_MORE_PLAYER_CARDS);
+			}
 			
 			System.out.println("GameStatus now is: ");
 			System.err.println("Result: " + gameStatus);
@@ -187,15 +224,6 @@ public class GameEngine implements GameInterface{
 			else
 				setVictorious();	*/
 			
-			//jouer l'infecteur
-			System.out.println("jouer l'infecteur: ");
-			int nbcards = infectionRate();
-			System.out.println("draw infection card: " +nbcards);
-			for(int i=0; i<nbcards;i++) {
-				Card cInfect =cards.drawInfectionCard();
-				cityStates.addInfectionLevel(cInfect.getCityName(), cInfect.getDisease(), 1);
-				//System.out.println(cityStates.getInfectionLevel(cInfect.getCityName(),cInfect.getDisease()));
-			}
 			in.next();//Used to block each round
 			
 		}
@@ -300,6 +328,9 @@ public class GameEngine implements GameInterface{
 			cityStates.minusUnCube(d,player.playerLocation());
 		}
 		
+	}
+	public void discoverCure(Disease d) {
+		diseaseStates.discoverCure(d);
 	}
 	
 }

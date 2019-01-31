@@ -18,8 +18,12 @@ public class Player implements PlayerInterface{
 	public Player(GameEngine g) {
 		action = 4;
 		this.g=g;
-		this.currentCity = "Atlanta";//city initial
+		this.currentCity = "Atlanta";//city initial => born in Atlanta
 		this.cardOnHand =  new ArrayList<>();
+	}
+	//for the begin of each tour 
+	public void begin() {
+		action=4;
 	}
 	//draw the card
 	public void draw(Card c) {
@@ -85,28 +89,29 @@ public class Player implements PlayerInterface{
 	public void treatDisease(Disease d) throws UnauthorizedActionException {
 		// TODO Auto-generated method stub
 		g.treatDisease(d);
+		action--;
 	}
 
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
 		// TODO Auto-generated method stub
-		boolean flag;
-		for (int i = 0; i < cardNames.size() - 1; i++){
-			for (int j = i + 1; j < cardNames.size(); j++){
-				
-				if(!cardNames.get(i).getDisease().equals(cardNames.get(j).getDisease())) {
-					flag =false;
-				}	
-			}	
+		if(cardNames.size()!=5) {
+			//if there aren't 5 cards
+			throw new UnauthorizedActionException();
 		}
-		flag = true;
-		if(flag) {
-			Disease d = cardNames.get(0).getDisease();
-			DiseaseState ds = new DiseaseState(d);
-			ds.cured(d);
-			
+		Disease disease =  cardNames.get(0).getDisease();
+		for(PlayerCardInterface pci : cardNames) {
+			if(pci.getDisease()!=disease) {
+				throw new UnauthorizedActionException(); //these 5 cards not same disease
+			}
 		}
-		
+		//if success
+		//remove these cards and get cure
+		for(PlayerCardInterface c : cardNames){
+			Discard(c);
+		}
+		g.discoverCure(disease);
+		action--;
 	}
 
 	@Override
@@ -125,11 +130,19 @@ public class Player implements PlayerInterface{
 		return cardOnHand;
 	}
 	
-	/*public int getAction() {
+	public int getAction() {
 		return this.action;
-	}*/
+	}
 	public int getNbPlayerCardsLeft() {
 		return cardOnHand.size();
+	}
+	//remove player's hand card by giving card
+	public void Discard(PlayerCardInterface pci) {
+		for(PlayerCardInterface c : cardOnHand){
+			if(c.getCityName().equals(pci.getCityName())) {
+				this.cardOnHand.remove(c);
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
