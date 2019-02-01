@@ -46,7 +46,7 @@ public class Cards {
 		int pos=cityCardArray.size()-1;
 		if(pos<=0) {
 			//there's no more card
-			System.out.println("no more card!"+cityCardArray.size());
+			System.out.println("no more card!"+cityCardArray.size()+"||end");
 			return null;
 		}
 		Card c = cityCardArray.get(cityCardArray.size()-1);
@@ -58,7 +58,7 @@ public class Cards {
 		int pos=infectionArray.size()-1;
 		if(pos<=0) {
 			//there's no more card
-			System.out.println("no more card!"+cityCardArray.size());
+			System.out.println("no more card!"+cityCardArray.size()+"||end");
 			return null;
 		}
 		Card c = infectionArray.get(infectionArray.size()-1);

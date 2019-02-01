@@ -233,6 +233,7 @@ public class GameEngine implements GameInterface{
 			System.err.println("nbCity cards left:"+cards.getCityCards().size());
 			System.err.println("nbInfection cards left:"+cards.getInfectionCards().size());
 			
+			cityStates.showCityStates();
 			
 			/*if(Math.random() < 0.5)
 				setDefeated("Game not implemented.", DefeatReason.UNKN);

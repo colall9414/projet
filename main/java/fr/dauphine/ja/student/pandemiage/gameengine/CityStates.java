@@ -65,7 +65,7 @@ public class CityStates {
 				
 			}
 		}
-		//If you don't find a change to the city (then things that can't happen theoretically, it also returns 0)
+		//If you don't find a change to the city (it won't happen theoretically, it also returns 0)
 		return 0;
 	}
 	
