@@ -26,6 +26,12 @@ public class DiseaseState {
     public Disease getDisease() {
     	return this.d;
     }
+
+	@Override
+	public String toString() {
+		return "DiseaseState [d=" + d + ", isCured=" + isCured + "]";
+	}
+    
   
 	
 	

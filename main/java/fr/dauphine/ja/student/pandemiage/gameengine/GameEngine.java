@@ -166,7 +166,7 @@ public class GameEngine implements GameInterface{
 				}
 				//If the numbre of card is larger than 9, you need to throw it.
 				if(player.getNbPlayerCardsLeft()>9) {
-					//ai得丢牌
+					//ai need to discard
 					ai.discard(this, player, 9, nbEpidemicCards);
 				}
 			}
@@ -194,6 +194,7 @@ public class GameEngine implements GameInterface{
 					flag_win=false;
 				}
 			}
+			diseaseStates.showDiseaseStates();
 			if(flag_win==true) {
 				setVictorious();
 			}

@@ -32,13 +32,13 @@ public class Cards {
 		for(int i=0;i<4;i++) {
 			//Divide the city card into 4 equal parts; put a epidemic card for each stack (the first five are city cards)
 			Card c = new Card();
-			int min=i*12;
-			int max=(i+1)*12;
+			int min=i*11;
+			int max=(i+1)*11;
 
 			//Add on a fixed quarter
 			//cityCardArray.add(min+5,c);//+5 Because the first five are city cards.
 			//Add a position between random min and max
-			cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5是因为前五张是城市卡
+			cityCardArray.add(min+(int)(Math.random() * (max-min+1))+5,c);//+5 because the first 5 cards are city cards
 		}
 	}
 	public Card drawCityCard() {
