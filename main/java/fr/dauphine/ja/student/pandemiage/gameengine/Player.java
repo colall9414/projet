@@ -206,7 +206,8 @@ public class Player implements PlayerInterface{
 		p.Discard(ca1);
 		p.showPlayerHands();
 		
-		
+		//Johannesburg
+		//Bogotá
 		
 		
 		

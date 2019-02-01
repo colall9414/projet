@@ -46,6 +46,7 @@ public class Cards {
 		int pos=cityCardArray.size()-1;
 		if(pos<=0) {
 			//there's no more card
+			System.out.println("no more card!"+cityCardArray.size());
 			return null;
 		}
 		Card c = cityCardArray.get(cityCardArray.size()-1);
@@ -57,6 +58,7 @@ public class Cards {
 		int pos=infectionArray.size()-1;
 		if(pos<=0) {
 			//there's no more card
+			System.out.println("no more card!"+cityCardArray.size());
 			return null;
 		}
 		Card c = infectionArray.get(infectionArray.size()-1);
@@ -69,6 +71,19 @@ public class Cards {
 	}
 	public List<Card> getInfectionCards(){
 		return infectionArray;
+	}
+	//if the librery of city card is empty
+	public boolean emptyCityCard() {
+		if(cityCardArray.size()>1) {
+			return false;
+		}
+		return true;
+	}
+	public boolean emptyInfectionCard() {
+		if(infectionArray.size()>1) {
+			return false;
+		}
+		return true;
 	}
 	
 	public static void main(String[] args) {
@@ -87,7 +102,7 @@ public class Cards {
 				System.out.println(i+": "+c);
 				i++;
 			}
-			for(i=0;i<30;i++) {
+			for(i=0;i<1;i++) {
 				Card c = cards.drawInfectionCard();	
 				System.out.println("card: "+c);
 			}

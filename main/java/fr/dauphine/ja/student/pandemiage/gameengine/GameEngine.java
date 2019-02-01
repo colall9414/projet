@@ -164,7 +164,7 @@ public class GameEngine implements GameInterface{
 					System.err.println("GOT Epidemic!! ");//Prompt infected
 					System.err.println("GOT Epidemic!! ");//Prompt infected
 					//take an infection card to know which city to epidemic
-					cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), 3);
+					nbOutbreaks+=cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), 3);
 					nbEpidemicCards++;
 					countInfection++;
 					
@@ -198,7 +198,7 @@ public class GameEngine implements GameInterface{
 					continue;//if is eradicated do nothing
 				}
 				//otherwise add infectionlevel to the city of card
-				cityStates.addInfectionLevel(c.getCityName(), c.getDisease(), 1);
+				nbOutbreaks+=cityStates.addInfectionLevel(c.getCityName(), c.getDisease(), 1);
 			}
 			//check if we win
 			boolean flag_win=true;
@@ -214,7 +214,7 @@ public class GameEngine implements GameInterface{
 			
 			//check if we lose
 			//if threre's no more disease cube(no more infection card) 
-			if(cards.getInfectionCards().size()==0) {
+			if(cards.emptyInfectionCard()==true) {
 				setDefeated("",DefeatReason.NO_MORE_BLOCKS);
 			}
 			//more than 8 outbreaks
@@ -222,7 +222,7 @@ public class GameEngine implements GameInterface{
 				setDefeated("",DefeatReason.TOO_MANY_OUTBREAKS);
 			}
 			//no more city card
-			if(cards.getCityCards().size()==0) {
+			if(cards.emptyCityCard()==true) {
 				setDefeated("",DefeatReason.NO_MORE_PLAYER_CARDS);
 			}
 			
@@ -230,7 +230,8 @@ public class GameEngine implements GameInterface{
 			System.err.println("Result: " + gameStatus);
 			printGameStats();//View current status
 			System.err.println("Player is now at "+player.playerLocation());//显示当前player在哪
-			
+			System.err.println("nbCity cards left:"+cards.getCityCards().size());
+			System.err.println("nbInfection cards left:"+cards.getInfectionCards().size());
 			
 			
 			/*if(Math.random() < 0.5)
