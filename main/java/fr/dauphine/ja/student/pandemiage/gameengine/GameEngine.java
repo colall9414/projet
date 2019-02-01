@@ -173,11 +173,11 @@ public class GameEngine implements GameInterface{
 					//if it is a city card, then the normal draw
 					player.draw(c);
 				}
-				//If the numbre of card is larger than 9, you need to throw it.
-				if(player.getNbPlayerCardsLeft()>9) {
-					//ai need to discard
-					player.Discard(ai.discard(this, player, 9, nbEpidemicCards));
-				}
+			}
+			//If the numbre of card is larger than 9, you need to throw it.
+			if(player.getNbPlayerCardsLeft()>9) {
+				//ai need to discard
+				player.Discard(ai.discard(this, player, 9, nbEpidemicCards));
 			}
 			//step 2: play turn
 			ai.playTurn(this, player);//stupid ai will always be in San Francisco because he will walk back four steps.
