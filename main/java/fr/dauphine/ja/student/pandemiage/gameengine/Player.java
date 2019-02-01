@@ -138,10 +138,26 @@ public class Player implements PlayerInterface{
 	}
 	//remove player's hand card by giving card
 	public void Discard(PlayerCardInterface pci) {
-		for(PlayerCardInterface c : cardOnHand){
+		System.out.println("will discard: "+pci);
+		/*for(Card c : cardOnHand){
 			if(c.getCityName().equals(pci.getCityName())) {
 				this.cardOnHand.remove(c);
 			}
+		}*/
+		for(int i=0;i<cardOnHand.size()-1;i++) {
+			if(cardOnHand.get(i).getCityName().equals(pci.getCityName())) {
+				this.cardOnHand.remove(i);
+			}
+		}
+	}
+	public void Discard(List<PlayerCardInterface> ListPC) {
+		for(PlayerCardInterface c: ListPC) {
+			Discard(c);
+		}
+	}
+	public void showPlayerHands() {
+		for(Card c: this.cardOnHand) {
+			System.out.println(c);
 		}
 	}
 	
@@ -151,7 +167,7 @@ public class Player implements PlayerInterface{
 		String cityGraphFile ="./pandemic.graphml";
 		GameEngine ge = new GameEngine(cityGraphFile, aijar);
 		Player p = new Player(ge);
-		City c1 = new City(1,"paris");
+		/*City c1 = new City(1,"paris");
 		City c2 = new City(2,"beijing");
 		City c3 = new City(3,"shanghai");
 		City c4 = new City(4,"guilin");
@@ -162,13 +178,34 @@ public class Player implements PlayerInterface{
 		p.draw(ca1);
 		p.draw(ca2);
 		p.draw(ca3);
-		p.draw(ca4);
+		p.draw(ca4);*/
+		CityLoader cl=null;
+		try{
+			cl = new CityLoader(cityGraphFile);
+		}
+		catch (Exception e ){
+			e.printStackTrace();
+		}
+		Cards cards = new Cards(cl);
 		try {
 			p.moveTo("Chicago");
 		} catch (UnauthorizedActionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//System.out.println(p.currentCity);
+		Card ca1 = cards.drawCityCard();
+		Card ca2 = cards.drawCityCard();
+		Card ca3 = cards.drawCityCard();
+		Card ca4 = cards.drawCityCard();
+		p.draw(ca1);
+		p.draw(ca2);
+		p.draw(ca3);
+		p.draw(ca4);
+		p.showPlayerHands();
+		p.Discard(ca1);
+		p.showPlayerHands();
+		
 		
 		
 		

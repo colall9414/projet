@@ -148,13 +148,22 @@ public class GameEngine implements GameInterface{
 			int nbEpidemicCards=0;
 			for(int i=0; i<2; i++) {
 				Card c = cards.drawCityCard();
+				if(c==null) {
+					//means there's no more card in the librery
+					continue;
+				}
 				if(c.getType().equals("epidemic")) {
 					//f it is a epidemic card, then draw another virus card
 					Card drawInfection = cards.drawInfectionCard();
+					if(drawInfection==null) {
+						//if there's no more infection cards in the librery
+						continue;
+					}
 					/*infection感染*/
 					System.err.println("GOT Epidemic!! ");//Prompt infected
 					System.err.println("GOT Epidemic!! ");//Prompt infected
 					System.err.println("GOT Epidemic!! ");//Prompt infected
+					//take an infection card to know which city to epidemic
 					cityStates.addInfectionLevel(drawInfection.getCityName(), drawInfection.getDisease(), 3);
 					nbEpidemicCards++;
 					countInfection++;
@@ -167,7 +176,7 @@ public class GameEngine implements GameInterface{
 				//If the numbre of card is larger than 9, you need to throw it.
 				if(player.getNbPlayerCardsLeft()>9) {
 					//ai need to discard
-					ai.discard(this, player, 9, nbEpidemicCards);
+					player.Discard(ai.discard(this, player, 9, nbEpidemicCards));
 				}
 			}
 			//step 2: play turn
@@ -181,6 +190,10 @@ public class GameEngine implements GameInterface{
 			for(int i=0;i<nbcards;i++) {
 				//check if the disease is eradicated
 				Card c = cards.drawInfectionCard();
+				if(c==null) {
+					//means there's no more card in the librery
+					continue;
+				}
 				if(this.isEradicated(c.getDisease())==true) {
 					continue;//if is eradicated do nothing
 				}
@@ -225,7 +238,7 @@ public class GameEngine implements GameInterface{
 			else
 				setVictorious();	*/
 			
-			in.next();//Used to block each round
+			//in.next();//Used to block each round
 			
 		}
 	}						

@@ -43,12 +43,22 @@ public class Cards {
 	}
 	public Card drawCityCard() {
 		//Take a city card (epidemic card is also here)
+		int pos=cityCardArray.size()-1;
+		if(pos<=0) {
+			//there's no more card
+			return null;
+		}
 		Card c = cityCardArray.get(cityCardArray.size()-1);
 		cityCardArray.remove(cityCardArray.size()-1);
 		return c;
 	}
 	public Card drawInfectionCard() {
 		//Draw a infection card
+		int pos=infectionArray.size()-1;
+		if(pos<=0) {
+			//there's no more card
+			return null;
+		}
 		Card c = infectionArray.get(infectionArray.size()-1);
 		infectionArray.remove(infectionArray.size()-1);
 		return c;
@@ -73,10 +83,15 @@ public class Cards {
 			
 			Cards cards = new Cards(parseur);
 			int i=0;
-			for(Card c : cards.getCityCards()){
+			for(Card c : cards.getInfectionCards()){
 				System.out.println(i+": "+c);
 				i++;
 			}
+			for(i=0;i<30;i++) {
+				Card c = cards.drawInfectionCard();	
+				System.out.println("card: "+c);
+			}
+
 			
 			System.out.println("fin");
 		
